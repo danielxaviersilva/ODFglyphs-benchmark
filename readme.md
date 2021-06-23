@@ -28,4 +28,6 @@ will generate the time data for the 3rd configuration (Glyph Indexing and instan
 The tessellation order index is set by the number before the indices of the meshes used (0, 1, 2, 3 or 4);
 The rendering configuration is the set by (0, 1, 2 or 3) as stated earlier.
 
+In the benchmark mode, the amount of glyphs varies in the following order: 5², 10², 15², 20², ..., 100² on screen.
+
 In the folder Results, there are the benchmark for different meshes, referred by its vertices, and the different rendering configuration made on a Macbook Pro Retina 13'' early 2015. The executable used is in the folder build/bin/macos. The file "HARDI_Glyphs_BenchmarkDataProcessing.ipynb" developed under jupyter notebook process the data generated to generate the plot FPS X #glyphs for the configurations explored in this work.
