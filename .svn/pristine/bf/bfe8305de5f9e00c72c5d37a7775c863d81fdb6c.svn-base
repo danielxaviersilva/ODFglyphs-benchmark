@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="renderODF_frag">Models/Visualization/renderODF.frag</file>
+        <file alias="renderODF_vert">Models/Visualization/renderODF.vert</file>
+        <file alias="renderODFInstanced_frag">Models/Visualization/renderODFInstanced.frag</file>
+        <file alias="renderODFInstanced_vert">Models/Visualization/renderODFInstanced.vert</file>
+        <file alias="renderODFInstancedSymmetrical_frag">Models/Visualization/renderODFInstancedSymmetrical.frag</file>
+        <file alias="renderODFInstancedSymmetrical_vert">Models/Visualization/renderODFInstancedSymmetrical.vert</file>
+        <file alias="renderODFInstancedSymmetricalCoalescent_frag">Models/Visualization/renderODFInstancedSymmetricalCoalescent.frag</file>
+        <file alias="renderODFInstancedSymmetricalCoalescent_vert">Models/Visualization/renderODFInstancedSymmetricalCoalescent.vert</file>
+    </qresource>
+</RCC>
