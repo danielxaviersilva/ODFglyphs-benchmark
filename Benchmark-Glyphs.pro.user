@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.1, 2021-06-23T15:52:45. -->
+<!-- Written by QtCreator 4.11.1, 2021-06-24T17:31:35. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -322,7 +322,7 @@
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory">/Users/daniel_mac/Benchmark-Glyphs/bin</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/daniel_mac/Benchmark-glyphs/build</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/Users/daniel_mac/Benchmark-glyphs/build/bin/macos</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
