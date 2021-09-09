@@ -3,7 +3,7 @@
 //#include<GL/glew.h>
 #include <iostream>
 #include <fstream>
-#include <QGLFunctions>
+#include <QOpenGLFunctions>
 #include <QFile>
 #include <QTextStream>
 //#include <OpenGL.h>

@@ -4,7 +4,12 @@
 #include <string>
 //#include <GL/glew.h>
 //#include <QGLFunctions>
+#if defined(__APPLE__)
+#include <OpenGL/gl.h>
+#else
 #include <gl.h>
+#endif
+//#include <gl.h>
 #include "CGUtilities.h"
 
 

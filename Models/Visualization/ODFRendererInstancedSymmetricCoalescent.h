@@ -18,7 +18,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 //#include <OpenGL.h>
-#include <QGLFunctions>
+//#include <QGLFunctions>
 //#include <GL/glew.h>
 #include "../../Utilities/VertexArray.h"
 #include "../../Utilities/VertexBuffer.h"

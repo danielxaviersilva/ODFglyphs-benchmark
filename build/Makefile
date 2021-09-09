@@ -15,9 +15,9 @@ EQ            = =
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -O2 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.13 -Wall -Wextra -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -Xpreprocessor -fopenmp -I/usr/local/include -O2 -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.13 -Wall -Wextra -fPIC $(DEFINES)
-INCPATH       = -I../../Benchmark-Glyphs -I. -I../Externals/glm/include -I../../Qt/5.14.1/clang_64/lib/QtOpenGL.framework/Headers -I../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -Igenerated_files -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/AGL.framework/Headers -I../../Qt/5.14.1/clang_64/mkspecs/macx-clang -F/Users/daniel_mac/Qt/5.14.1/clang_64/lib
+CFLAGS        = -pipe -O2 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=10.13 -Wall -Wextra -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -stdlib=libc++ -Xpreprocessor -fopenmp -I/usr/local/include -O2 -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=10.13 -Wall -Wextra -fPIC $(DEFINES)
+INCPATH       = -I../../Benchmark-Glyphs -I. -I../Externals/glm/include -I../../Qt/5.14.1/clang_64/lib/QtOpenGL.framework/Headers -I../../Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I../../Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -Igenerated_files -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/AGL.framework/Headers -I../../Qt/5.14.1/clang_64/mkspecs/macx-clang -F/Users/daniel_mac/Qt/5.14.1/clang_64/lib
 QMAKE         = /Users/daniel_mac/Qt/5.14.1/clang_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -39,7 +39,7 @@ COMPRESS      = gzip -9f
 DISTNAME      = Benchmark-Glyphs1.0.0
 DISTDIR = /Users/daniel_mac/Benchmark-Glyphs/build/generated_files/Benchmark-Glyphs1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-LFLAGS        = -stdlib=libc++ -lomp -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.13 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/daniel_mac/Qt/5.14.1/clang_64/lib
+LFLAGS        = -stdlib=libc++ -lomp -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=10.13 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/daniel_mac/Qt/5.14.1/clang_64/lib
 LIBS          = $(SUBLIBS) -F/Users/daniel_mac/Qt/5.14.1/clang_64/lib -L /usr/local/lib /usr/local/lib/libomp.dylib -framework QtOpenGL -framework QtWidgets -framework QtGui -framework AppKit -framework Metal -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL   
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
@@ -318,7 +318,7 @@ TARGET        = bin/macos/Benchmark-Glyphs
 
 ####### Custom Variables
 EXPORT_QMAKE_MAC_SDK = macosx
-EXPORT_QMAKE_MAC_SDK_VERSION = 11.1
+EXPORT_QMAKE_MAC_SDK_VERSION = 11.3
 EXPORT_QMAKE_XCODE_DEVELOPER_PATH = /Applications/Xcode.app/Contents/Developer
 EXPORT_VALID_ARCHS = x86_64
 EXPORT_ACTIVE_ARCHS = $(filter $(EXPORT_VALID_ARCHS), $(ARCHS))
@@ -787,7 +787,7 @@ compiler_moc_predefs_make_all: generated_files/moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) generated_files/moc_predefs.h
 generated_files/moc_predefs.h: ../../Qt/5.14.1/clang_64/mkspecs/features/data/dummy.cpp
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -Xpreprocessor -fopenmp -I/usr/local/include -O2 -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk -mmacosx-version-min=10.13 -Wall -Wextra -dM -E -o generated_files/moc_predefs.h ../../Qt/5.14.1/clang_64/mkspecs/features/data/dummy.cpp
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -Xpreprocessor -fopenmp -I/usr/local/include -O2 -std=gnu++11 $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk -mmacosx-version-min=10.13 -Wall -Wextra -dM -E -o generated_files/moc_predefs.h ../../Qt/5.14.1/clang_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: generated_files/moc_window.cpp
 compiler_moc_header_clean:
@@ -817,13 +817,13 @@ generated_files/moc_window.cpp: ../window.h \
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QTextStream \
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Models/Visualization/ODFRendererInstancedSymmetric.h \
 		../Models/Visualization/ODFRendererInstancedSymmetricCoalescent.h \
 		../Models/Visualization/ODFRenderer.h \
 		generated_files/moc_predefs.h \
 		../../Qt/5.14.1/clang_64/bin/moc
-	/Users/daniel_mac/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/daniel_mac/Benchmark-Glyphs/build/generated_files/moc_predefs.h -I/Users/daniel_mac/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/daniel_mac/Benchmark-Glyphs -I/Users/daniel_mac/Benchmark-Glyphs/Externals/glm/include -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtOpenGL.framework/Headers -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/daniel_mac/Qt/5.14.1/clang_64/lib ../window.h -o generated_files/moc_window.cpp
+	/Users/daniel_mac/Qt/5.14.1/clang_64/bin/moc $(DEFINES) --include /Users/daniel_mac/Benchmark-Glyphs/build/generated_files/moc_predefs.h -I/Users/daniel_mac/Qt/5.14.1/clang_64/mkspecs/macx-clang -I/Users/daniel_mac/Benchmark-Glyphs -I/Users/daniel_mac/Benchmark-Glyphs/Externals/glm/include -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtOpenGL.framework/Headers -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtWidgets.framework/Headers -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtGui.framework/Headers -I/Users/daniel_mac/Qt/5.14.1/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/12.0.5/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/daniel_mac/Qt/5.14.1/clang_64/lib ../window.h -o generated_files/moc_window.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -879,7 +879,7 @@ generated_files/ODFRenderer.o: ../Models/Visualization/ODFRenderer.cpp ../Models
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/CGUtilities.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Models/Visualization/ODFRendererInstanced.h \
 		../Models/ODFSamples.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated_files/ODFRenderer.o ../Models/Visualization/ODFRenderer.cpp
@@ -900,7 +900,7 @@ generated_files/ODFRendererInstanced.o: ../Models/Visualization/ODFRendererInsta
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QTextStream \
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Utilities/Timer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated_files/ODFRendererInstanced.o ../Models/Visualization/ODFRendererInstanced.cpp
 
@@ -919,7 +919,7 @@ generated_files/ODFRendererInstancedSymmetric.o: ../Models/Visualization/ODFRend
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/CGUtilities.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Models/Visualization/ODFRendererInstanced.h \
 		../Models/ODFSamples.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated_files/ODFRendererInstancedSymmetric.o ../Models/Visualization/ODFRendererInstancedSymmetric.cpp
@@ -939,7 +939,7 @@ generated_files/ODFRendererInstancedSymmetricCoalescent.o: ../Models/Visualizati
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/CGUtilities.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Models/Visualization/ODFRendererInstanced.h \
 		../Models/ODFSamples.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated_files/ODFRendererInstancedSymmetricCoalescent.o ../Models/Visualization/ODFRendererInstancedSymmetricCoalescent.cpp
@@ -969,7 +969,7 @@ generated_files/Shader.o: ../Utilities/Shader.cpp ../Utilities/Shader.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o generated_files/Shader.o ../Utilities/Shader.cpp
 
 generated_files/Texture.o: ../Utilities/Texture.cpp ../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Utilities/CGUtilities.h \
 		../../Qt/5.14.1/clang_64/lib/QtOpenGL.framework/Headers/QGLFunctions \
 		../../Qt/5.14.1/clang_64/lib/QtOpenGL.framework/Headers/qglfunctions.h
@@ -1018,7 +1018,7 @@ generated_files/main.o: ../main.cpp ../../Qt/5.14.1/clang_64/lib/QtGui.framework
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QTextStream \
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Models/Visualization/ODFRendererInstancedSymmetric.h \
 		../Models/Visualization/ODFRendererInstancedSymmetricCoalescent.h \
 		../Models/Visualization/ODFRenderer.h
@@ -1049,7 +1049,7 @@ generated_files/window.o: ../window.cpp ../window.h \
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/QTextStream \
 		../../Qt/5.14.1/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../Utilities/Texture.h \
-		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
+		/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/OpenGL.framework/Headers/gl.h \
 		../Models/Visualization/ODFRendererInstancedSymmetric.h \
 		../Models/Visualization/ODFRendererInstancedSymmetricCoalescent.h \
 		../Models/Visualization/ODFRenderer.h

@@ -1,4 +1,6 @@
-QT       += core gui opengl
+QT       += core gui opengl #openglwidgets widgets
+#QT += widgets opengl openglwidgets
+
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -31,6 +33,7 @@ SOURCES += \
 
 
 QMAKE_CXXFLAGS += -Xpreprocessor -fopenmp -I/usr/local/include
+#QMAKE_CXXFLAGS += -stdlib=libstdc++
 QMAKE_LFLAGS += -lomp
 
 INCLUDEPATH += "Externals/glm/include" \

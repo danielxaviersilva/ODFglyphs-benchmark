@@ -16,7 +16,7 @@
 #include <math.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <QGLFunctions>
+#include <QOpenGLFunctions>
 #include "../../Utilities/VertexArray.h"
 #include "../../Utilities/VertexBuffer.h"
 #include "../../Utilities/IndexBuffer.h"

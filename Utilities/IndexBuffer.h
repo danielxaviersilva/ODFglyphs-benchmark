@@ -1,7 +1,7 @@
 #ifndef INDEXBUFFER_H
 #define INDEXBUFFER_H
 //#include <GL/glew.h>
-#include <QGLFunctions>
+#include <QOpenGLFunctions>
 
 
 class IndexBuffer

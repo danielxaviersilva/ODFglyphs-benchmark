@@ -2,7 +2,7 @@
 #define VERTEXBUFFER_H
 
 //#include <GL/glew.h>
-#include <QGLFunctions>
+#include <QOpenGLFunctions>
 
 
 class VertexBuffer

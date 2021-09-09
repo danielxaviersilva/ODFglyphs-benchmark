@@ -9,7 +9,7 @@
  */
 #ifndef CGUTILITIES_H
 #define CGUTILITIES_H
-#include <QGLFunctions>
+#include <QOpenGLFunctions>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <glm/gtx/transform.hpp>
