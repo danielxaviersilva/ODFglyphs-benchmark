@@ -44,6 +44,7 @@ public:
     void walkAround(glm::vec3 direction);
     float cameraSpeed() const;
     void setCameraSpeed(float cameraSpeed);
+    void variateCameraSpeed(float factor = 1.1f);
 
     void scaleWorld(float scaleFactor);
     void setMvpMatrixLoc(unsigned int program, const char *mvpMatrixName);
@@ -54,6 +55,6 @@ public:
     void resetCamera();
 
     glm::mat4 view() const;
-    glm::mat4 projection() const;
+    const glm::mat4 &projection() const;
 };
 #endif // CAMERA_H

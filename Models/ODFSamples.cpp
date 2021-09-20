@@ -19,14 +19,44 @@ float ODFSamples::getScale() const
     return m_scale;
 }
 
+std::vector<unsigned int> ODFSamples::getIndexBuffer(const unsigned int icoResIndex) const
+{
+    if (icoResIndex > m_indexBufferSet.size()) {
+        std::cerr << "In function " << __FILE__ << "::" << __FUNCTION__ <<
+                     ", the variable icoResIndex = " << icoResIndex <<
+                     " is higher than the size of m_indexBufferSet" << std::endl;
+        exit(1);
+    } else {
+        return m_indexBufferSet[icoResIndex].idxBuffer;
+    }
+
+}
+
+size_t ODFSamples::getIndexBufferSetSize() const
+{
+    return m_indexBufferSet.size();
+}
+
+unsigned int ODFSamples::getMeshSubsetVerticesAmount(const unsigned int icoResIndex) const
+{
+    if (icoResIndex > m_indexBufferSet.size()) {
+        std::cerr << "In function " << __FILE__ << "::" << __FUNCTION__ <<
+                     ", the variable icoResIndex = " << icoResIndex <<
+                     " is higher than the size of m_indexBufferSet" << std::endl;
+        exit(1);
+    } else {
+        return m_indexBufferSet[icoResIndex].verticesAmount;
+    }
+}
+
 ODFSamples::ODFSamples(int instancesAmount, int icoIterations):
-    m_instancesAmount(instancesAmount)
+    m_instancesAmount(instancesAmount), m_meshIterations(icoIterations)
 {
 
 //    bool isIco = true;
 
 //      if(isIco) {
-        generateIcoCoordsMeshSphere(icoIterations);
+        generateIcoCoordsMeshSphere(m_meshIterations);
 //      } else {
 //          generateUVCoordsMeshSphere(thetaRes, phiRes);
 //      }
@@ -103,6 +133,8 @@ void ODFSamples::computeODFs()
 void ODFSamples::computeTranslationMatrices(const unsigned int& instancesAmount)
 {
     int cols = (int) sqrt(instancesAmount);
+    m_cols = cols;
+    m_rows = cols;
     m_translateVector = new glm::vec3[cols*cols];
     m_translateMatrix = new glm::mat4[cols*cols];
 
@@ -194,6 +226,10 @@ void ODFSamples::generateIcoCoordsMeshSphere(const unsigned int meshIterations)
         shrinkVec3(m_baseDirections, m_indexBuffer, true);
         AlignEvenMesh(m_baseDirections, m_indexBuffer);
 
+        m_indexBufferSet.resize(m_meshIterations+1);
+        m_indexBufferSet[0].idxBuffer = m_indexBuffer;
+        m_indexBufferSet[0].verticesAmount = m_baseDirections.size();
+
         for (unsigned int it = 0; it < meshIterations; it++){
             unsigned int currentVertexIdx = m_baseDirections.size();
                 std::vector<unsigned int> idxAux;// = m_indexBuffer;
@@ -251,6 +287,8 @@ void ODFSamples::generateIcoCoordsMeshSphere(const unsigned int meshIterations)
                 AlignEvenMesh(m_baseDirections, m_indexBuffer);
                 shrinkVec3(m_baseDirections, m_indexBuffer);
                 AlignEvenMesh(m_baseDirections, m_indexBuffer);
+                m_indexBufferSet[it+1].idxBuffer = m_indexBuffer;
+                m_indexBufferSet[it+1].verticesAmount = m_baseDirections.size();
 //                m_indexBufferSet[it+1].idxBuffer = m_indexBuffer;
 //                m_indexBufferSet[it+1].verticesAmount = m_baseDirections.size();
 

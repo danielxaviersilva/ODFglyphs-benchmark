@@ -39,8 +39,8 @@ void Texture::uploadTexture(std::vector<float> data, int width, int height)
 void Texture::uploadTextureRGBA(std::vector<float> data, int width, int height)
 {
     if (!m_initialized){
-    glGenTextures(1, &m_rendererID);
-    m_initialized = true;
+        glGenTextures(1, &m_rendererID);
+        m_initialized = true;
     }
     glBindTexture(GL_TEXTURE_2D, m_rendererID);
 

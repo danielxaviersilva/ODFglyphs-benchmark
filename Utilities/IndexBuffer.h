@@ -19,6 +19,7 @@ public:
     void unbind();
     void updateBufferData(const void *data, int size);
     void updateBufferData(const unsigned int *data, unsigned int count);
+    unsigned int iboID() const;
 };
 
 #endif // INDEXBUFFER_H

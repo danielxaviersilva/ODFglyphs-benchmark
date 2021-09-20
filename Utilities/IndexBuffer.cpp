@@ -60,6 +60,11 @@ void IndexBuffer::unbind()
 
 
 
+unsigned int IndexBuffer::iboID() const
+{
+    return m_iboID;
+}
+
 void IndexBuffer::_check_gl_error(const char *file, int line) {
     //Ting: sugestao para chamada
     //_check_gl_error(__FILE__,__LINE__)

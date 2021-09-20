@@ -52,6 +52,10 @@ protected:
     ODFSamples * m_ODFListRef;
     Texture m_ODFMapTexture;
 
+    glm::mat4 m_projectionMatrix;
+    glm::mat4 m_mvMatrix;
+    glm::mat4 m_mvpMatrix;
+
 public:
     ODFRendererInstanced();
     virtual ~ODFRendererInstanced();
@@ -62,6 +66,8 @@ public:
 
     virtual void initialize(ODFSamples* odfSamples);
     virtual void render(const std::vector<unsigned int>& odfIndexSet);
+    virtual void render(const std::vector<unsigned int>& odfIndexSet, unsigned int window_width, unsigned int window_height){};
+    virtual void getRenderingInfo(unsigned int* onScreenGlyphs, unsigned int* glyphResolution,unsigned int *maxPixels){};
 
 
 

@@ -3,7 +3,10 @@ QT       += core gui opengl #openglwidgets widgets
 
 
 CONFIG += c++11 console
+#CONFIG += c++17
 CONFIG -= app_bundle
+
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -20,6 +23,8 @@ SOURCES += \
         Models/Visualization/ODFRendererInstanced.cpp \
         Models/Visualization/ODFRendererInstancedSymmetric.cpp \
         Models/Visualization/ODFRendererInstancedSymmetricCoalescent.cpp \
+        Models/Visualization/ODFRendererMultiResolution.cpp \
+        Models/Visualization/ODFRendererOnDemand.cpp \
         Utilities/CGUtilities.cpp \
         Utilities/Camera.cpp \
         Utilities/IndexBuffer.cpp \
@@ -52,6 +57,8 @@ HEADERS += \
     Models/Visualization/ODFRendererInstanced.h \
     Models/Visualization/ODFRendererInstancedSymmetric.h \
     Models/Visualization/ODFRendererInstancedSymmetricCoalescent.h \
+    Models/Visualization/ODFRendererMultiResolution.h \
+    Models/Visualization/ODFRendererOnDemand.h \
     QBallGlyphsCoefficientsSample.h \
     Utilities/CGUtilities.h \
     Utilities/Camera.h \
@@ -86,4 +93,5 @@ unix:!macx {
 }
 OBJECTS_DIR=generated_files #Intermediate object files directory
 MOC_DIR=generated_files #Intermediate moc files directory
+unix:QMAKE_RPATHDIR += /Users/daniel_mac/Qt/5.12.3/clang_64/lib
 

@@ -5,10 +5,14 @@
 Window::Window()
 {
     //CONSTANTS
-    m_IcosahedronIterations = 2;
+    m_sceneScaleFactor = 1.318955468417696f; //11 medicoes 105^2 -> 25
+    m_measurements = 0;
+//    m_sceneScaleFactor = 1.288875460631112f; //12 medicoes 105^2 -> 25
+    m_IcosahedronIterations = 4;
     m_isRenderingInstanced = true;
     m_isRenderingHemispherical = true;
     m_isTextureOptimized = true;
+    m_isMultiResolution = true;
     m_benchmarkMaxSamplesAmount = 10001;
     m_executionsAmount = 100;
     m_step = 5;
@@ -19,7 +23,14 @@ Window::Window()
     m_isPathSet = false;
 
     //INITIAL Values PARAMETERS
-    m_rows = 5;
+    m_rows = 105;
+    m_scaleFactorVariationConstant = 0.8f;
+
+    m_glyphsAmount = 0;
+    m_currentMaxPixels = 0;
+    m_currentResolution = 0;
+
+
 
 }
 
@@ -44,16 +55,23 @@ void Window::initializeGL()
 
     initializeOpenGLFunctions();
 
-    if(m_isResolutionSet && m_isCategorySet && m_isPathSet) {
+    if( m_isResolutionSet && m_isCategorySet && m_isPathSet ) {
         m_writingEnabled = true;
     }
 
-    if (m_isRenderingInstanced) {
-         if (m_isRenderingHemispherical) {
+
+    if ( m_isRenderingInstanced ) {
+         if ( m_isRenderingHemispherical ) {
             m_odfSampleSet = new ODFSamplesHemisphere(m_odfSamplesAmount, m_IcosahedronIterations);
-            if(m_isTextureOptimized) {
+            if( m_isTextureOptimized ) {
+                if ( m_isMultiResolution ) {
+//                    m_odfSampleSetRenderer = new ODFRendererMultiResolution();
+                    m_odfSampleSetRenderer = new ODFRendererOnDemand();
+                     m_file.setFileName(QString::fromStdString(m_path + "/MultiResolution_V" + std::to_string(m_odfSampleSet->getBaseDirections().size()) + "Max" + std::to_string(m_rows*m_rows) + ".txt"));
+                } else {
                 m_odfSampleSetRenderer = new ODFRendererInstancedSymmetricCoalescent();
                 m_file.setFileName(QString::fromStdString(m_path + "/InstancedSymmetricCoalescent_V" + std::to_string(m_odfSampleSet->getBaseDirections().size()) + ".txt"));
+                }
             } else {
                 m_odfSampleSetRenderer = new ODFRendererInstancedSymmetric();
                 m_file.setFileName(QString::fromStdString(m_path + "/InstancedSymmetric_V" + std::to_string(m_odfSampleSet->getBaseDirections().size()) + ".txt"));
@@ -69,14 +87,21 @@ void Window::initializeGL()
         m_file.setFileName(QString::fromStdString(m_path + "/Standard_V" + std::to_string(m_odfSampleSet->getBaseDirections().size()) + ".txt"));
     }
 
+
+    m_odfSampleSet->computeODFs();
+    m_odfSampleSetRenderer->initialize(m_odfSampleSet);
     if( m_writingEnabled ){
         std::cout << "Benchmark file: " << m_file.fileName().toStdString() << std::endl;
         m_file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+        m_camera.zoomCommand(1.0f/m_sceneScaleFactor);
+        m_odfSampleSetRenderer->setProjectionMatrix(m_camera.projection());
+        m_odfSampleSetRenderer->setMVMatrix(m_camera.view());
     }
-    m_odfSampleSet->computeODFs();
-    m_odfSampleSetRenderer->initialize(m_odfSampleSet);
     resizeGL(this->width(), this->height());
+//    m_camera.setCameraSpeed(0.0005f);
     m_startTimePoint = std::chrono::high_resolution_clock::now();
+
 }
 
 
@@ -85,11 +110,13 @@ void Window::paintGL()
 {
 
     draw();
+     m_odfSampleSetRenderer->getRenderingInfo(&m_glyphsAmount, &m_currentResolution, &m_currentMaxPixels);
     update();
 
-    if(m_counter == m_executionsAmount && m_writingEnabled) {
+    if( m_counter == m_executionsAmount && m_writingEnabled) {
         updateBenchmarkParameters();
         m_startTimePoint = std::chrono::high_resolution_clock::now();
+        m_counter = 0;
         return;
     }
     m_counter++;
@@ -98,12 +125,28 @@ void Window::paintGL()
     auto start = std::chrono::time_point_cast<std::chrono::microseconds>(m_startTimePoint).time_since_epoch().count();
     auto end = std::chrono::time_point_cast<std::chrono::microseconds>(m_endTimePoint).time_since_epoch().count();
     auto duration = end - start;
-    if ( m_writingEnabled ) {
-        QTextStream out(&m_file);
-        out << m_glyphsIndex.size() << ", " << duration << "\n";
+    if ( m_writingEnabled) {
+        if( m_isMultiResolution ) {
+             QTextStream out(&m_file);
+            std::cout <<
+            m_camera.projection()[0][0] << " " <<
+                         m_glyphsAmount << " " <<
+                     m_currentMaxPixels << " " <<
+                    m_currentResolution << " " <<
+                               duration << " " <<
+              std::endl;
+            out <<
+            m_camera.projection()[0][0] << ", " <<
+                         m_glyphsAmount << ", " <<
+                     m_currentMaxPixels << ", " <<
+                    m_currentResolution << ", " <<
+                               duration << ", " <<
+              "\n";
+        } else {
+            QTextStream out(&m_file);
+            out << m_glyphsIndex.size() << ", " << duration << "\n";
+        }
     }
-
-//    std::cout << m_glyphsIndex.size() << ", " << duration << std::endl;
     m_startTimePoint = std::chrono::high_resolution_clock::now();
 
 }
@@ -124,37 +167,53 @@ void Window::viewPort()
 
 void Window::updateBenchmarkParameters()
 {
-    delete m_odfSampleSet;
-    delete m_odfSampleSetRenderer;
-    m_rows +=m_step;
-    m_odfSamplesAmount = m_rows*m_rows;
-    m_counter = 0;
-    m_indexAmount = m_odfSamplesAmount;
-    m_glyphsIndex.resize(m_indexAmount);
-    std::iota (std::begin(m_glyphsIndex), std::end(m_glyphsIndex), 0);
-
-    if ( m_odfSamplesAmount > m_benchmarkMaxSamplesAmount ) {
-        std::cout << "BENCHMARK FINISHED!" << std::endl;
-        exit(0);
-    }
-    if (m_isRenderingInstanced) {
-       if (m_isRenderingHemispherical) {
-            m_odfSampleSet = new ODFSamplesHemisphere(m_odfSamplesAmount, m_IcosahedronIterations);
-            if(m_isTextureOptimized) {
-                m_odfSampleSetRenderer = new ODFRendererInstancedSymmetricCoalescent();
-            } else {
-                m_odfSampleSetRenderer = new ODFRendererInstancedSymmetric();
-            }
-       } else {
-            m_odfSampleSet = new ODFSamples(m_odfSamplesAmount, m_IcosahedronIterations);
-            m_odfSampleSetRenderer = new ODFRendererInstanced();
-       }
+    m_measurements++;
+    if( m_isMultiResolution ) {
+        if(m_measurements > 13) {
+            std::cout << "BENCHMARK FINISHED!" << std::endl;
+            exit(0);
+        }
     } else {
-            m_odfSampleSet = new ODFSamples(m_odfSamplesAmount, m_IcosahedronIterations);
-            m_odfSampleSetRenderer = new ODFRenderer();
+        if ( m_odfSamplesAmount > m_benchmarkMaxSamplesAmount ) {
+            std::cout << "BENCHMARK FINISHED!" << std::endl;
+            exit(0);
+        }
     }
-    m_odfSampleSet->computeODFs();
-    m_odfSampleSetRenderer->initialize(m_odfSampleSet);
+
+    if( m_isMultiResolution ) {
+        m_camera.zoomCommand(m_sceneScaleFactor);
+        m_odfSampleSetRenderer->setProjectionMatrix(m_camera.projection());
+        m_odfSampleSetRenderer->setMVMatrix(m_camera.view());
+        draw();
+    } else {
+        delete m_odfSampleSet;
+        delete m_odfSampleSetRenderer;
+        m_rows +=m_step;
+        m_odfSamplesAmount = m_rows*m_rows;
+        m_indexAmount = m_odfSamplesAmount;
+        m_glyphsIndex.resize(m_indexAmount);
+        std::iota (std::begin(m_glyphsIndex), std::end(m_glyphsIndex), 0);
+
+        if ( m_isRenderingInstanced ) {
+           if ( m_isRenderingHemispherical ) {
+                m_odfSampleSet = new ODFSamplesHemisphere(m_odfSamplesAmount, m_IcosahedronIterations);
+                if( m_isTextureOptimized ) {
+                    m_odfSampleSetRenderer = new ODFRendererInstancedSymmetricCoalescent();
+                } else {
+                    m_odfSampleSetRenderer = new ODFRendererInstancedSymmetric();
+                }
+           } else {
+                m_odfSampleSet = new ODFSamples(m_odfSamplesAmount, m_IcosahedronIterations);
+                m_odfSampleSetRenderer = new ODFRendererInstanced();
+           }
+        } else {
+                m_odfSampleSet = new ODFSamples(m_odfSamplesAmount, m_IcosahedronIterations);
+                m_odfSampleSetRenderer = new ODFRenderer();
+        }
+        m_odfSampleSet->computeODFs();
+        m_odfSampleSetRenderer->initialize(m_odfSampleSet);
+    }
+
 
 }
 
@@ -176,18 +235,13 @@ void Window::setbenchmarkCategory(int benchmarkCategory)
         m_isRenderingInstanced = m_isRenderingHemispherical = m_isTextureOptimized = false;
     } else if(benchmarkCategory == 1) {
         m_isRenderingInstanced = true;
-        m_isRenderingHemispherical = false;
-        m_isTextureOptimized = false;
+        m_isRenderingHemispherical = m_isTextureOptimized = m_isMultiResolution = false;
     } else if(benchmarkCategory == 2) {
-        m_isRenderingInstanced = true;
-        m_isRenderingHemispherical = true;
-        m_isTextureOptimized = false;
+        m_isRenderingInstanced = m_isRenderingHemispherical = true;
+        m_isTextureOptimized = m_isMultiResolution = false;
     } else if(benchmarkCategory == 3) {
-        m_isRenderingInstanced = true;
-        m_isRenderingHemispherical = true;
-        m_isTextureOptimized = true;
+        m_isRenderingInstanced = m_isRenderingHemispherical = m_isTextureOptimized = m_isMultiResolution = true;
     }
-
     m_isCategorySet = true;
 }
 
@@ -243,11 +297,11 @@ void Window::keyPressEvent(QKeyEvent *event)
         break;
 
         case Qt::Key_Plus: //std::cout << "Tecla +" << std::endl;
-        m_camera.zoomCommand(1.0);
+        m_camera.zoomCommand(m_sceneScaleFactor);
         break;
 
         case Qt::Key_Minus: //std::cout << "Tecla -" << std::endl;
-        m_camera.zoomCommand(-1.0);
+         m_camera.zoomCommand(1.0f/m_sceneScaleFactor);
          break;
 
         case Qt::Key_D: //std::cout << "Tecla D" << std::endl;
@@ -278,8 +332,12 @@ void Window::keyPressEvent(QKeyEvent *event)
     m_camera.resetCamera();
      break;
 
-    case Qt::Key_G:
-     break;
+    case Qt::Key_X:
+        m_sceneScaleFactor = (m_sceneScaleFactor - 1.0f)*m_scaleFactorVariationConstant + 1.0f;
+    break;
+    case Qt::Key_Z:
+        m_sceneScaleFactor = (m_sceneScaleFactor - 1.0f)/m_scaleFactorVariationConstant + 1.0f;
+    break;
     }
     m_odfSampleSetRenderer->setProjectionMatrix(m_camera.projection());
     m_odfSampleSetRenderer->setMVMatrix(m_camera.view());
@@ -306,15 +364,19 @@ void Window::resizeGL(int width, int height)
 void Window::draw()
 {
     viewPort();
-    const float bg[] = {1.0f,
-                  1.0f,
-                  1.0f,1.0f};
+    const float bg[] = {0.0f,
+                  0.0f,
+                  0.0f,1.0f};
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearBufferfv(GL_COLOR, 0, bg);
     //Timer - begin
 //    std::chrono::time_point<std::chrono::high_resolution_clock> m_startTimePoint = std::chrono::high_resolution_clock::now();
     //
-    m_odfSampleSetRenderer->render(m_glyphsIndex);
+    if( m_isMultiResolution ) {
+        m_odfSampleSetRenderer->render(m_glyphsIndex, m_currentWidth, m_currentHeight);
+    } else {
+        m_odfSampleSetRenderer->render(m_glyphsIndex);
+    }
     //
     //Timer - end
 }

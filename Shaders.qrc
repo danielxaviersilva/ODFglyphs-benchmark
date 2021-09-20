@@ -8,5 +8,9 @@
         <file alias="renderODFInstancedSymmetrical_vert">Models/Visualization/renderODFInstancedSymmetrical.vert</file>
         <file alias="renderODFInstancedSymmetricalCoalescent_frag">Models/Visualization/renderODFInstancedSymmetricalCoalescent.frag</file>
         <file alias="renderODFInstancedSymmetricalCoalescent_vert">Models/Visualization/renderODFInstancedSymmetricalCoalescent.vert</file>
+        <file alias="renderODFVisibilityMultiRes_frag">Models/Visualization/renderODFVisibilityMultiRes.frag</file>
+        <file alias="renderODFVisibilityMultiRes_vert">Models/Visualization/renderODFVisibilityMultiRes.vert</file>
+        <file alias="renderODFVisibilityMultiResOnDemand_vert">Models/Visualization/renderODFVisibilityMultiResOnDemand.vert</file>
+        <file alias="renderODFVisibilityMultiResOnDemand_frag">Models/Visualization/renderODFVisibilityMultiResOnDemand.frag</file>
     </qresource>
 </RCC>

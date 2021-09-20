@@ -47,10 +47,10 @@ void ODFRendererInstanced::initialize(ODFSamples *odfSamples)
 
 void ODFRendererInstanced::setProjectionMatrix(glm::mat4 projectionMatrix)
 {
-
-
     if(m_initialized)
     {
+        m_projectionMatrix = projectionMatrix;
+        m_mvpMatrix = m_projectionMatrix*m_mvMatrix;
         m_program.useProgram();
         GLshort mvMatrixLoc = m_program.getUniformLocation("u_projectionMatrix");
         glUniformMatrix4fv( mvMatrixLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
@@ -62,6 +62,8 @@ void ODFRendererInstanced::setMVMatrix(glm::mat4 mvMatrix)
 {
     if(m_initialized)
     {
+        m_mvMatrix = mvMatrix;
+        m_mvpMatrix = m_projectionMatrix*m_mvMatrix;
         m_program.useProgram();
         GLshort mvMatrixLoc = m_program.getUniformLocation("u_modelViewMatrix");
         glUniformMatrix4fv( mvMatrixLoc, 1, GL_FALSE, glm::value_ptr(mvMatrix));

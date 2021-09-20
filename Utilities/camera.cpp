@@ -12,6 +12,11 @@ void Camera::setCameraSpeed(float cameraSpeed)
     m_cameraSpeed = cameraSpeed;
 }
 
+void Camera::variateCameraSpeed(float factor)
+{
+    m_cameraSpeed*=factor;
+}
+
 void Camera::scaleWorld(float scaleFactor)
 {
     m_projectionParameters[0] *=scaleFactor;
@@ -37,7 +42,7 @@ glm::mat4 Camera::view() const
     return m_view;
 }
 
-glm::mat4 Camera::projection() const
+const glm::mat4 &Camera::projection() const
 {
 //    std::cout << "projection: " << glm::to_string(m_projection) << std::endl;
     return m_projection;
@@ -60,8 +65,8 @@ Camera::Camera(unsigned int program,
 //    m_view = glm::mat4(1.0f);
 
 
-    m_projectionParameters[0] = m_projectionParameters[2] = m_projectionParameters[4] = -1;
-    m_projectionParameters[1] = m_projectionParameters[3] = m_projectionParameters[5] = 1;
+    m_projectionParameters[0] = m_projectionParameters[2] = m_projectionParameters[4] = -1.0f;
+    m_projectionParameters[1] = m_projectionParameters[3] = m_projectionParameters[5] =  1.0f;
 
     m_projection = glm::ortho( m_projectionParameters[0],
                                m_projectionParameters[1],
@@ -174,20 +179,22 @@ void Camera::walkAround(glm::vec3 direction)
 
 void Camera::zoomCommand(float factor)
 {
+   const float scaleFactor = 1.0f/factor;
+   m_projectionParameters[0]*=scaleFactor;
+   m_projectionParameters[1]*=scaleFactor;
+   m_projectionParameters[2]*=scaleFactor;
+   m_projectionParameters[3]*=scaleFactor;
+   m_projectionParameters[4]*=scaleFactor;
+   m_projectionParameters[5]*=scaleFactor;
 
-   m_projectionParameters[0]+=m_cameraSpeed*factor;
-   m_projectionParameters[1]-=m_cameraSpeed*factor;
-   m_projectionParameters[2]+=m_cameraSpeed*factor;
-   m_projectionParameters[3]-=m_cameraSpeed*factor;
-   m_projectionParameters[4]+=m_cameraSpeed*factor;
-   m_projectionParameters[5]-=m_cameraSpeed*factor;
-
-    m_projection = glm::ortho( m_projectionParameters[0],
+   m_projection = glm::ortho( m_projectionParameters[0],
                                m_projectionParameters[1],
                                m_projectionParameters[2],
                                m_projectionParameters[3],
                                m_projectionParameters[4],
-                               m_projectionParameters[5]);
+                               m_projectionParameters[5] );
+
+//    std::cout << glm::to_string(m_projection) << std::endl;
 //    m_cameraPos += m_cameraSpeed*direction;
     //    m_view = lookAt(m_cameraPos, m_cameraPos, m_cameraUp);
 }

@@ -24,6 +24,8 @@
 #include "Models/Visualization/ODFRendererInstanced.h"
 #include "Models/Visualization/ODFRendererInstancedSymmetric.h"
 #include "Models/Visualization/ODFRendererInstancedSymmetricCoalescent.h"
+#include "Models/Visualization/ODFRendererMultiResolution.h"
+#include "Models/Visualization/ODFRendererOnDemand.h"
 #include "Models/Visualization/ODFRenderer.h"
 
 #include <string>
@@ -81,14 +83,25 @@ private:
   unsigned int m_benchmarkMaxSamplesAmount;
   unsigned int m_IcosahedronIterations;
 
+
+  unsigned int m_glyphsAmount;
+  unsigned int m_currentMaxPixels;
+  unsigned int m_currentResolution;
+
+  unsigned int m_measurements;
+
   bool m_isResolutionSet;
   bool m_isCategorySet;
   bool m_isPathSet;
 
+  bool m_isMultiResolution;
   bool m_isRenderingInstanced;
   bool m_isRenderingHemispherical;
   bool m_isTextureOptimized;
   bool m_writingEnabled;
+
+  float m_sceneScaleFactor;
+  float m_scaleFactorVariationConstant;
 
   QFile m_file;
   std::chrono::time_point<std::chrono::high_resolution_clock> m_startTimePoint, m_endTimePoint;

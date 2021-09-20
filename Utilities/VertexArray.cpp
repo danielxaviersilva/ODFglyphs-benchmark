@@ -40,7 +40,13 @@ void VertexArray::addBuffer(VertexBuffer &vb)
     for (int i = 0 ; i < int(m_layout.size()); i++)
     {
         glEnableVertexAttribArray(m_layout[i].varLocation);
-        glVertexAttribPointer(m_layout[i].varLocation, m_layout[i].elementCount, m_layout[i].type, m_layout[i].normalized, m_stride, (void*)( offset) );
+        switch(m_layout[i].type)
+        {
+            case GL_FLOAT:  glVertexAttribPointer(m_layout[i].varLocation, m_layout[i].elementCount, m_layout[i].type, m_layout[i].normalized, m_stride, (void*)( offset) ); break;
+            case GL_UNSIGNED_INT:  glVertexAttribIPointer(m_layout[i].varLocation, m_layout[i].elementCount, GL_UNSIGNED_INT, m_stride, (void*)( offset) ); break;
+            default :std:: cerr << "Something wrong with the variable type stated in this layout" << std::endl;
+        }
+
         if (m_layout[i].isInstanced == INSTANCED)
             glVertexAttribDivisor(m_layout[i].varLocation, m_layout[i].instanciationDivisor);
 

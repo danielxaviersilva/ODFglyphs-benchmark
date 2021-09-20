@@ -52,6 +52,18 @@ typedef struct EDGE_T {
     }
 } Edge_t;
 
+
+    typedef struct mesh_subset_property
+    {
+       std::vector<unsigned int> idxBuffer;
+       unsigned int verticesAmount;
+        mesh_subset_property()
+        {
+            verticesAmount = 0;
+        }
+
+    } MeshSubsetProperty_t;
+
 protected:
     int m_instancesAmount; /**< Maximum amount of objects to be drawn*/
 
@@ -104,11 +116,20 @@ public:
     int getInstancesAmount() const;
     float getScale() const;
 
+    std::vector<unsigned int> getIndexBuffer(const unsigned int icoResIndex) const;
+    unsigned int getMeshSubsetVerticesAmount(const unsigned int icoResIndex) const;
+    size_t getIndexBufferSetSize() const;
+
+    unsigned int m_cols, m_rows;
+
 protected:
     void generateIcoCoordsMeshSphere(const unsigned int meshIterations);
     void generateIcoCoordsMeshSphere_OPT(const unsigned int meshIterations);
     void generateUVCoordsMeshSphere(const unsigned int thetaRes, const unsigned int phiRes);
     void MinMaxNormalizePsi(float * psi, const int &size);
+
+    std::vector<MeshSubsetProperty_t> m_indexBufferSet;
+    int m_meshIterations;
 
 
     int getUsedEdgesIndex (Edge_t edge, std::vector<Edge_t>& edgesSet);
